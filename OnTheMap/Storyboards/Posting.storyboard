@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bOF-O6-fX1">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="NWE-k3-yNb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bOF-O6-fX1" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uGG-tW-lLF">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="jks-VC-bmm" kind="relationship" relationship="rootViewController" id="x4L-Zy-vxq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g3o-zB-Amg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4669.5652173913049" y="229.6875"/>
+        </scene>
+        <!--Posting View Controller-->
+        <scene sceneID="mF6-GB-RVx">
+            <objects>
+                <viewController storyboardIdentifier="UIViewController-IlD-9N-HtF" id="jks-VC-bmm" customClass="PostingViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8z7-3a-8F3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_world" translatesAutoresizingMaskIntoConstraints="NO" id="FU6-bx-Wfl">
+                                <rect key="frame" x="181" y="148" width="52" height="67"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="67" id="fQd-1j-QGy"/>
+                                    <constraint firstAttribute="width" constant="52" id="lQr-Lk-xJy"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="SWg-Gb-0DX">
+                                <rect key="frame" x="35" y="265" width="344" height="146"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QBB-MK-GBX">
+                                        <rect key="frame" x="0.0" y="0.0" width="344" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Link" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dvy-Fq-92T">
+                                        <rect key="frame" x="0.0" y="48" width="344" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7BC-wG-hHb">
+                                        <rect key="frame" x="0.0" y="96" width="344" height="50"/>
+                                        <color key="backgroundColor" red="0.30196078430000001" green="0.69411764710000001" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="mcz-60-7rl"/>
+                                        </constraints>
+                                        <state key="normal" title="FIND LOCATION">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="findAction:" destination="jks-VC-bmm" eventType="touchUpInside" id="UiC-xg-mgW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="iEV-e2-pes">
+                                <rect key="frame" x="197" y="376" width="20" height="20"/>
+                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="iEV-e2-pes" firstAttribute="centerX" secondItem="7BC-wG-hHb" secondAttribute="centerX" id="6tB-Bk-ECP"/>
+                            <constraint firstItem="SWg-Gb-0DX" firstAttribute="leading" secondItem="7Qf-nm-73K" secondAttribute="leading" constant="35" id="AZh-Nu-Ra0"/>
+                            <constraint firstItem="7Qf-nm-73K" firstAttribute="trailing" secondItem="SWg-Gb-0DX" secondAttribute="trailing" constant="35" id="aZM-3J-9lx"/>
+                            <constraint firstItem="iEV-e2-pes" firstAttribute="centerY" secondItem="7BC-wG-hHb" secondAttribute="centerY" id="dr5-9s-3Ty"/>
+                            <constraint firstItem="FU6-bx-Wfl" firstAttribute="top" secondItem="7Qf-nm-73K" secondAttribute="top" constant="60" id="kZF-Sb-dWI"/>
+                            <constraint firstItem="FU6-bx-Wfl" firstAttribute="centerX" secondItem="8z7-3a-8F3" secondAttribute="centerX" id="lH5-bu-GeW"/>
+                            <constraint firstItem="SWg-Gb-0DX" firstAttribute="top" secondItem="FU6-bx-Wfl" secondAttribute="bottom" constant="50" id="ypM-ex-F3R"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="7Qf-nm-73K"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hAW-Pa-WZ6">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="uLS-nr-YxG">
+                            <color key="tintColor" red="0.30196078430000001" green="0.69411764710000001" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="cancelAction:" destination="jks-VC-bmm" id="qZS-t1-bNX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="linkField" destination="dvy-Fq-92T" id="Nfa-X5-1fW"/>
+                        <outlet property="loadingIndicator" destination="iEV-e2-pes" id="eXt-Tf-qnb"/>
+                        <outlet property="locationButton" destination="7BC-wG-hHb" id="eSV-Bs-VU9"/>
+                        <outlet property="locationField" destination="QBB-MK-GBX" id="WBN-Py-8tX"/>
+                        <segue destination="C85-oF-203" kind="show" identifier="locationResult" id="X5n-pd-H42"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1CH-o5-Qlf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5579.7101449275369" y="229.6875"/>
+        </scene>
+        <!--Location Search Result View Controller-->
+        <scene sceneID="96v-pM-pyJ">
+            <objects>
+                <viewController id="C85-oF-203" customClass="LocationSearchResultViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Nyi-c3-D6k">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="PjH-c1-bej">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <connections>
+                                    <outlet property="delegate" destination="C85-oF-203" id="GTq-WA-dTR"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="PjH-c1-bej" firstAttribute="leading" secondItem="Rq3-Lg-tN0" secondAttribute="leading" id="27C-fG-w0z"/>
+                            <constraint firstItem="Rq3-Lg-tN0" firstAttribute="trailing" secondItem="PjH-c1-bej" secondAttribute="trailing" id="ADx-lj-Ctt"/>
+                            <constraint firstItem="Rq3-Lg-tN0" firstAttribute="bottom" secondItem="PjH-c1-bej" secondAttribute="bottom" id="PiW-fQ-YVD"/>
+                            <constraint firstItem="PjH-c1-bej" firstAttribute="top" secondItem="Rq3-Lg-tN0" secondAttribute="top" id="W5H-6j-qDe"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Rq3-Lg-tN0"/>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="PjH-c1-bej" id="Zb2-br-kdg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RBz-gn-AsB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6449" y="230"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icon_world" width="52" height="67"/>
+    </resources>
+</document>
