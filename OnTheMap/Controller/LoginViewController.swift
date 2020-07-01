@@ -11,15 +11,10 @@ import UIKit
 let appDel = UIApplication.shared.delegate as! AppDelegate
 
 class LoginViewController: UIViewController {
-
     @IBOutlet weak var mailTextField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var loginIndicator: UIActivityIndicatorView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 }
 
 // MARK: - IBActions -
@@ -27,8 +22,6 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     
     @IBAction func loginAction(_ sender: Any) {
-        mailTextField.text = "kcankaynak@gmail.com"
-        passwordField.text = "AmE05TuR"
         guard let mailText = mailTextField.text, !mailText.isEmpty else {
             showErrorAlert("Mail field can not be empty")
             return
@@ -58,13 +51,8 @@ extension LoginViewController {
 extension LoginViewController {
     
     private func setLoginIndicatorState(_ visible: Bool) {
-        if visible {
-            loginIndicator.startAnimating()
-            loginButton.setTitle(nil, for: .normal)
-        } else {
-            loginIndicator.stopAnimating()
-            loginButton.setTitle("LOG IN", for: .normal)
-        }
+        visible ? loginIndicator.startAnimating() : loginIndicator.stopAnimating()
+        visible ? loginButton.setTitle(nil, for: .normal) : loginButton.setTitle("LOG IN", for: .normal)
         mailTextField.isUserInteractionEnabled = !visible
         passwordField.isUserInteractionEnabled = !visible
         loginButton.isUserInteractionEnabled = !visible

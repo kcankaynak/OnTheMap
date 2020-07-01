@@ -45,6 +45,7 @@ extension MapViewController {
     }
     
     @IBAction func refreshAction(_ sender: Any) {
+        annotations.removeAll()
         fetchStudents()
     }
 }
