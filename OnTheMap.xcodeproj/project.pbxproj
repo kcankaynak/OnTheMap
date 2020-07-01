@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4324EF8C24AC88AF000A8354 /* CreateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4324EF8B24AC88AF000A8354 /* CreateUserResponse.swift */; };
+		4324EF8E24AC8AEB000A8354 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4324EF8D24AC8AEB000A8354 /* NotificationName.swift */; };
 		436DBB0024AA053200A74FEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DBAFF24AA053200A74FEE /* AppDelegate.swift */; };
 		436DBB0724AA053200A74FEE /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 436DBB0524AA053200A74FEE /* Login.storyboard */; };
 		436DBB0924AA053300A74FEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 436DBB0824AA053300A74FEE /* Assets.xcassets */; };
@@ -23,7 +25,7 @@
 		43A5B71124ABA1BE00F9132C /* LocationSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A5B71024ABA1BE00F9132C /* LocationSearchResultViewController.swift */; };
 		43A5B71324ABA33C00F9132C /* AppIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A5B71224ABA33C00F9132C /* AppIdentifiers.swift */; };
 		43A5B71524ABA69400F9132C /* StudentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A5B71424ABA69400F9132C /* StudentRequest.swift */; };
-		43A5B71724ABA97B00F9132C /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A5B71624ABA97B00F9132C /* UserResponse.swift */; };
+		43A5B71724ABA97B00F9132C /* GetUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A5B71624ABA97B00F9132C /* GetUserResponse.swift */; };
 		43FEA3F624AA2FB000C5D006 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43FEA3F524AA2FB000C5D006 /* Map.storyboard */; };
 		43FEA3F824AA304400C5D006 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA3F724AA304400C5D006 /* MapViewController.swift */; };
 		43FEA3FA24AA306000C5D006 /* PinsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA3F924AA306000C5D006 /* PinsTableViewController.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4324EF8B24AC88AF000A8354 /* CreateUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserResponse.swift; sourceTree = "<group>"; };
+		4324EF8D24AC8AEB000A8354 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		436DBAFC24AA053200A74FEE /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		436DBAFF24AA053200A74FEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		436DBB0624AA053200A74FEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
@@ -52,7 +56,7 @@
 		43A5B71024ABA1BE00F9132C /* LocationSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultViewController.swift; sourceTree = "<group>"; };
 		43A5B71224ABA33C00F9132C /* AppIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdentifiers.swift; sourceTree = "<group>"; };
 		43A5B71424ABA69400F9132C /* StudentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentRequest.swift; sourceTree = "<group>"; };
-		43A5B71624ABA97B00F9132C /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
+		43A5B71624ABA97B00F9132C /* GetUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserResponse.swift; sourceTree = "<group>"; };
 		43FEA3F524AA2FB000C5D006 /* Map.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Map.storyboard; path = OnTheMap/Storyboards/Map.storyboard; sourceTree = SOURCE_ROOT; };
 		43FEA3F724AA304400C5D006 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		43FEA3F924AA306000C5D006 /* PinsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsTableViewController.swift; sourceTree = "<group>"; };
@@ -151,7 +155,8 @@
 				436DBB2324AA1D9A00A74FEE /* AuthErrorResponse.swift */,
 				43FEA3FE24AA341400C5D006 /* LogOutResponse.swift */,
 				43FEA40424AA413900C5D006 /* StudentResponse.swift */,
-				43A5B71624ABA97B00F9132C /* UserResponse.swift */,
+				43A5B71624ABA97B00F9132C /* GetUserResponse.swift */,
+				4324EF8B24AC88AF000A8354 /* CreateUserResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -163,6 +168,7 @@
 				43A5B70E24ABA13000F9132C /* UIView+Extension.swift */,
 				43A5B70724AB949900F9132C /* String+Extension.swift */,
 				43A5B71224ABA33C00F9132C /* AppIdentifiers.swift */,
+				4324EF8D24AC8AEB000A8354 /* NotificationName.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -263,15 +269,17 @@
 				43FEA40324AA3B0C00C5D006 /* UIViewController+Extension.swift in Sources */,
 				436DBB1724AA084D00A74FEE /* LoginViewController.swift in Sources */,
 				43A5B70F24ABA13000F9132C /* UIView+Extension.swift in Sources */,
+				4324EF8C24AC88AF000A8354 /* CreateUserResponse.swift in Sources */,
 				43A5B71524ABA69400F9132C /* StudentRequest.swift in Sources */,
 				43FEA3FF24AA341400C5D006 /* LogOutResponse.swift in Sources */,
 				436DBB1F24AA15F600A74FEE /* LogInResponse.swift in Sources */,
 				43FEA3FD24AA31E800C5D006 /* PinsTableViewCell.swift in Sources */,
+				4324EF8E24AC8AEB000A8354 /* NotificationName.swift in Sources */,
 				43A5B71324ABA33C00F9132C /* AppIdentifiers.swift in Sources */,
 				43FEA3FA24AA306000C5D006 /* PinsTableViewController.swift in Sources */,
 				43A5B70824AB949900F9132C /* String+Extension.swift in Sources */,
 				436DBB2424AA1D9A00A74FEE /* AuthErrorResponse.swift in Sources */,
-				43A5B71724ABA97B00F9132C /* UserResponse.swift in Sources */,
+				43A5B71724ABA97B00F9132C /* GetUserResponse.swift in Sources */,
 				436DBB1D24AA14C500A74FEE /* LoginRequest.swift in Sources */,
 				436DBB0024AA053200A74FEE /* AppDelegate.swift in Sources */,
 				43FEA3F824AA304400C5D006 /* MapViewController.swift in Sources */,

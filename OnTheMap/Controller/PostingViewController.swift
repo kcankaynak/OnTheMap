@@ -59,16 +59,16 @@ extension PostingViewController {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = locationText
         let search = MKLocalSearch(request: request)
-        search.start { [weak self] (response, error) in
+        search.start { (response, error) in
             if let error = error {
-                self?.showErrorAlert("Location search is failed with error : \(error.localizedDescription)")
+                self.showErrorAlert("Location search is failed with error : \(error.localizedDescription)")
             } else if let searchResult = response?.mapItems.first {
                 let studentRequest = StudentRequest(uniqueKey: BaseService.UserData.uniqueKey, firstName: BaseService.UserData.firstName, lastName: BaseService.UserData.lastName, mapString: locationText, mediaURL: linkText, latitude: searchResult.placemark.coordinate.latitude, longitude: searchResult.placemark.coordinate.longitude)
-                self?.performSegue(withIdentifier: AppIdentifiers.Segue.locationResult, sender: studentRequest)
+                self.performSegue(withIdentifier: AppIdentifiers.Segue.locationResult, sender: studentRequest)
             } else {
-                self?.showErrorAlert("Can not find your location. Please provide new one.")
+                self.showErrorAlert("Can not find your location. Please provide new one.")
             }
-            self?.setIndicatorState(false)
+            self.setIndicatorState(false)
         }
     }
 }

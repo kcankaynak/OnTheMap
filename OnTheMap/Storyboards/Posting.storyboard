@@ -59,6 +59,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="mcz-60-7rl"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <state key="normal" title="FIND LOCATION">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -124,18 +125,48 @@
                                     <outlet property="delegate" destination="C85-oF-203" id="GTq-WA-dTR"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKI-1l-9PK">
+                                <rect key="frame" x="35" y="777" width="344" height="50"/>
+                                <color key="backgroundColor" red="0.30196078430000001" green="0.69411764710000001" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="vCp-QJ-2RE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                <state key="normal" title="SUBMIT">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="submitAction:" destination="C85-oF-203" eventType="touchUpInside" id="TAQ-MX-iRp"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="S4t-Le-WWg">
+                                <rect key="frame" x="197" y="792" width="20" height="20"/>
+                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="PjH-c1-bej" firstAttribute="leading" secondItem="Rq3-Lg-tN0" secondAttribute="leading" id="27C-fG-w0z"/>
+                            <constraint firstItem="S4t-Le-WWg" firstAttribute="centerX" secondItem="QKI-1l-9PK" secondAttribute="centerX" id="9P8-3s-hOM"/>
                             <constraint firstItem="Rq3-Lg-tN0" firstAttribute="trailing" secondItem="PjH-c1-bej" secondAttribute="trailing" id="ADx-lj-Ctt"/>
+                            <constraint firstItem="Rq3-Lg-tN0" firstAttribute="bottom" secondItem="QKI-1l-9PK" secondAttribute="bottom" constant="35" id="AbX-VT-D2N"/>
+                            <constraint firstItem="S4t-Le-WWg" firstAttribute="centerY" secondItem="QKI-1l-9PK" secondAttribute="centerY" id="GMM-om-TTh"/>
                             <constraint firstItem="Rq3-Lg-tN0" firstAttribute="bottom" secondItem="PjH-c1-bej" secondAttribute="bottom" id="PiW-fQ-YVD"/>
+                            <constraint firstItem="QKI-1l-9PK" firstAttribute="leading" secondItem="Rq3-Lg-tN0" secondAttribute="leading" constant="35" id="SZ0-bY-SoT"/>
                             <constraint firstItem="PjH-c1-bej" firstAttribute="top" secondItem="Rq3-Lg-tN0" secondAttribute="top" id="W5H-6j-qDe"/>
+                            <constraint firstItem="Rq3-Lg-tN0" firstAttribute="trailing" secondItem="QKI-1l-9PK" secondAttribute="trailing" constant="35" id="iq1-YF-dTp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Rq3-Lg-tN0"/>
                     </view>
                     <connections>
+                        <outlet property="loadingIndicator" destination="S4t-Le-WWg" id="7QZ-D7-u3J"/>
                         <outlet property="mapView" destination="PjH-c1-bej" id="Zb2-br-kdg"/>
+                        <outlet property="submitButton" destination="QKI-1l-9PK" id="bJT-ja-FCM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RBz-gn-AsB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

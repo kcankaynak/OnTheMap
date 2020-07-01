@@ -38,13 +38,13 @@ extension LoginViewController {
             return
         }
         setLoginIndicatorState(true)
-        BaseService.shared.logInService(mailText, password: passwordText, success: { (response) in
+        BaseService.shared.logIn(mailText, password: passwordText, success: { (response) in
             self.setLoginIndicatorState(false)
             self.performSegue(withIdentifier: "showMap", sender: self)
             self.clearTextFields()
-        }, failure: { [weak self] error in
-            self?.showErrorAlert(error.localizedDescription)
-            self?.setLoginIndicatorState(false)
+        }, failure: { error in
+            self.showErrorAlert(error.localizedDescription)
+            self.setLoginIndicatorState(false)
         })
     }
     

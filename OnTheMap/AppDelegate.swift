@@ -12,10 +12,9 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let updateStudents = NSNotification.Name("studentsUpdated")
     var students = StudentResponse(results: []) {
         didSet {
-            NotificationCenter.default.post(name: updateStudents, object: nil)
+            NotificationCenter.default.post(name: NotificationName.updateStudents, object: nil)
         }
     }
 

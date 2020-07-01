@@ -18,12 +18,13 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "On the Map"
         fetchStudents()
-        NotificationCenter.default.addObserver(self, selector: #selector(update), name: appDel.updateStudents, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(update), name: NotificationName.updateStudents, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showUserLocation(_:)), name: NotificationName.showUserLocation, object: nil)
     }
     
     deinit {
-        print("HARİTA GEBERDİ")
-        NotificationCenter.default.removeObserver(self, name: appDel.updateStudents, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationName.updateStudents, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationName.showUserLocation, object: nil)
     }
 }
 
@@ -32,12 +33,12 @@ class MapViewController: UIViewController {
 extension MapViewController {
     
     @IBAction func logoutAction(_ sender: Any) {
-        showLogoutAlert { [weak self] shouldLogout in
+        showLogoutAlert { shouldLogout in
             if shouldLogout {
-                BaseService.shared.logOutService(success: { response in
-                    self?.dismiss(animated: true, completion: nil)
+                BaseService.shared.logOut(success: { response in
+                    self.dismiss(animated: true, completion: nil)
                 }, failure: { error in
-                    self?.showErrorAlert(error.localizedDescription)
+                    self.showErrorAlert(error.localizedDescription)
                 })
             }
         }
@@ -53,9 +54,9 @@ extension MapViewController {
 extension MapViewController {
     
     fileprivate func fetchStudents() {
-        BaseService.shared.fetchStudents(completion: { [weak self] error in
+        BaseService.shared.fetchStudents(completion: { error in
             if let error = error {
-                self?.showErrorAlert(error.localizedDescription)
+                self.showErrorAlert(error.localizedDescription)
             }
         })
     }
@@ -67,11 +68,39 @@ extension MapViewController {
     
     @objc func update() {
         for student in appDel.students.results {
-            annotations.append(createAnnotation(student))
+            annotations.append(createAnnotation(student.latitude, long: student.longitude, firstName: student.firstName, lastName: student.lastName, url: student.mediaURL))
         }
         DispatchQueue.main.async {
             self.mapView.addAnnotations(self.annotations)
         }
+    }
+}
+
+// MARK: - Show User Location -
+
+extension MapViewController {
+    
+    @objc func showUserLocation(_ notification: NSNotification) {
+        guard let userInfo = notification.userInfo, let studentData = userInfo["studentData"] as? StudentRequest else { return }
+        let annotation = createAnnotation(studentData.latitude, long: studentData.longitude, firstName: studentData.firstName, lastName: studentData.lastName, url: studentData.mediaURL)
+        annotations.append(annotation)
+        DispatchQueue.main.async {
+            self.mapView.removeAnnotations(self.annotations)
+            self.mapView.addAnnotations(self.annotations)
+        }
+        setupMapRect(annotation)
+    }
+}
+
+// MARK: - Show Last Location On the Map -
+
+extension MapViewController {
+    
+    fileprivate func setupMapRect(_ annotation: MKPointAnnotation) {
+        let point = MKMapPoint(annotation.coordinate)
+        let mapRect = MKMapRect(x: point.x, y: point.y, width: 0.1, height: 0.1)
+        mapView.setVisibleMapRect(mapRect, animated: true)
+        mapView.camera.altitude *= 50
     }
 }
 
@@ -97,15 +126,15 @@ extension MapViewController: MKMapViewDelegate {
     }
 }
 
-// MARK: - Generate Annotation -
+// MARK: - Create Annotation -
 
 extension MapViewController {
     
-    fileprivate func createAnnotation(_ student: StudentList) -> MKPointAnnotation {
+    fileprivate func createAnnotation(_ lat: Double, long: Double, firstName: String, lastName: String, url: String) -> MKPointAnnotation {
         let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(student.latitude), longitude: CLLocationDegrees(student.longitude))
-        annotation.title = "\(student.firstName) \(student.lastName)"
-        annotation.subtitle = student.mediaURL
+        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(lat), longitude: CLLocationDegrees(long))
+        annotation.title = "\(firstName) \(lastName)"
+        annotation.subtitle = url
         return annotation
     }
 }

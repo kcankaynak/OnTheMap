@@ -8,27 +8,23 @@
 
 import Foundation
 
-struct UserResponse: Codable {
-    let user: UserModel
-}
+//struct UserResponse: Codable {
+//    let user: UserModel
+//    enum CodingKeys: String, CodingKey {
+//        case user
+//    }
+//}
 
-struct UserModel: Codable {
+struct GetUserResponse: Codable {
     var firstName: String
     var lastName: String
-    var bio: String?
-    var registered: Bool
-    var linkedinUrl: String?
-    var image: String?
     let key: String
-    let websiteUrl: String
+    let websiteUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case firstName = "first_name"
         case lastName = "last_name"
-        case registered = "_registered"
-        case linkedinUrl = "linkedin_url"
-        case image = "_image"
         case websiteUrl = "website_url"
-        case bio, key
+        case key
     }
 }

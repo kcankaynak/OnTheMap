@@ -13,12 +13,11 @@ class PinsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "On the Map"
-        NotificationCenter.default.addObserver(self, selector: #selector(update), name: appDel.updateStudents, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(update), name: NotificationName.updateStudents, object: nil)
     }
     
     deinit {
-        print("TABLO GEBERDİ")
-        NotificationCenter.default.removeObserver(self, name: appDel.updateStudents, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationName.updateStudents, object: nil)
     }
 }
 
@@ -27,12 +26,12 @@ class PinsTableViewController: UITableViewController {
 extension PinsTableViewController {
     
     @IBAction func logoutAction(_ sender: Any) {
-        showLogoutAlert { [weak self] shouldLogout in
+        showLogoutAlert { shouldLogout in
             if shouldLogout {
-                BaseService.shared.logOutService(success: { response in
-                    self?.dismiss(animated: true, completion: nil)
+                BaseService.shared.logOut(success: { response in
+                    self.dismiss(animated: true, completion: nil)
                 }, failure: { error in
-                    self?.showErrorAlert(error.localizedDescription)
+                    self.showErrorAlert(error.localizedDescription)
                 })
             }
         }
@@ -48,9 +47,9 @@ extension PinsTableViewController {
 extension PinsTableViewController {
     
     fileprivate func fetchStudents() {
-        BaseService.shared.fetchStudents(completion: { [weak self] error in
+        BaseService.shared.fetchStudents(completion: { error in
             if let error = error {
-                self?.showErrorAlert(error.localizedDescription)
+                self.showErrorAlert(error.localizedDescription)
             }
         })
     }

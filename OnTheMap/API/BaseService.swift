@@ -19,8 +19,9 @@ final class BaseService {
         
         case auth
         case webAuth
+        case studentLocation
         case studendList
-        case user(String)
+        case getUser(String)
         
         var stringValue: String {
             switch self {
@@ -28,9 +29,11 @@ final class BaseService {
                 return EndPoints.base + "session"
             case .webAuth:
                 return "https://auth.udacity.com/sign-up/?redirect_to=webAuthLogin:authenticate"
+            case .studentLocation:
+                return EndPoints.base + "StudentLocation"
             case .studendList:
-                return EndPoints.base + "StudentLocation?limit=100&order=-updatedAt"
-            case .user(let id):
+                return EndPoints.studentLocation.stringValue + "?limit=100&order=-updatedAt"
+            case .getUser(let id):
                 return EndPoints.base + "users/\(id)"
             }
         }
@@ -50,103 +53,67 @@ final class BaseService {
 
 extension BaseService {
     
-    final func setupPostRequest<RequestType: Encodable, ResponseType: Decodable>(_ url: URL, bodyData: RequestType, completion: @escaping (Result<ResponseType, Error>) -> Void) {
-        
-    }
-    
-    func logInService(_ username: String, password: String, success: @escaping (LogInResponse) -> (), failure: @escaping (Error) -> ()) {
+    func logIn(_ username: String, password: String, success: @escaping (LogInResponse) -> (), failure: @escaping (Error) -> ()) {
         let loginData = LogInStruct(udacity: LoginRequest(username: username, password: password))
-        var urlRequest = URLRequest(url: EndPoints.auth.url)
-        urlRequest.httpMethod = "POST"
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        do {
-            urlRequest.httpBody = try JSONEncoder().encode(loginData)
-        } catch {
-            fatalError("HTTP body is not set correctly. Failed with error -> \(error.localizedDescription)")
-        }
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard error == nil, let data = data else {
-                DispatchQueue.main.async {
-                    failure(error!)
-                }
-                return
-            }
-            do {
-                let responseObject = try JSONDecoder().decode(LogInResponse.self, from: data.subdata(in: 5..<data.count))
-                UserData.id = responseObject.session.id
+        setupPostRequest(EndPoints.auth.url, bodyData: loginData, shouldEscape: true) { (result: Result<LogInResponse, Error>) in
+            switch result {
+            case .success(let response):
+                UserData.id = response.session.id
                 self.fetchUser { (userData, error) in
-                    guard let userData = userData else { return }
-                    UserData.uniqueKey = userData.user.key
-                    UserData.firstName = userData.user.firstName
-                    UserData.lastName = userData.user.lastName
-                }
-                DispatchQueue.main.async {
-                    success(responseObject)
-                }
-            } catch {
-                do {
-                    let errorResponse = try JSONDecoder().decode(AuthErrorResponse.self, from: data) as Error
-                    DispatchQueue.main.async {
-                        failure(errorResponse)
+                    guard let userData = userData else {
+                        DispatchQueue.main.async {
+                            success(response)
+                        }
+                        return
                     }
-                } catch {
+                    UserData.uniqueKey = userData.key
+                    UserData.firstName = userData.firstName
+                    UserData.lastName = userData.lastName
                     DispatchQueue.main.async {
-                        failure(error)
+                        success(response)
                     }
                 }
+            case .failure(let error):
+                failure(error)
             }
-        }.resume()
-    }
-    
-    func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, shouldEscape: Bool, completion: @escaping (ResponseType?, Error?) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
-                return
-            }
-            do {
-                var responseObject: ResponseType!
-                if shouldEscape {
-                    responseObject = try JSONDecoder().decode(ResponseType.self, from: data)
-                } else {
-                    responseObject = try JSONDecoder().decode(ResponseType.self, from: data.subdata(in: 5..<data.count))
-                }
-                DispatchQueue.main.async {
-                    completion(responseObject, nil)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
-            }
-        }.resume()
+        }
     }
     
     func fetchStudents(completion: @escaping (Error?) -> ()) {
-        taskForGETRequest(url: EndPoints.studendList.url, responseType: StudentResponse.self, shouldEscape: false) { (response, error) in
-            guard error == nil, let response = response else {
-                completion(error!)
-                return
+        setupGetRequest(url: EndPoints.studendList.url, responseType: StudentResponse.self, shouldEscape: false, completion: { (result: Result<StudentResponse, Error>) in
+            switch result {
+            case .success(let response):
+                appDel.students = response
+                completion(nil)
+            case .failure(let error):
+                completion(error)
             }
-            appDel.students = response
-            completion(nil)
+        })
+    }
+    
+    private func fetchUser(completion: @escaping(GetUserResponse?, Error?) -> ()) {
+        setupGetRequest(url: EndPoints.getUser(UserData.id).url, responseType: GetUserResponse.self, shouldEscape: true, completion: { (result: Result<GetUserResponse, Error>) in
+            switch result {
+            case .success(let response):
+                completion(response, nil)
+            case .failure(let error):
+                completion(nil, error)
+            }
+        })
+    }
+    
+    func createUser(_ request: StudentRequest, completion: @escaping(Error?) -> ()) {
+        setupPostRequest(EndPoints.studentLocation.url, bodyData: request, shouldEscape: false) { (result: Result<CreateUserResponse, Error>) in
+            switch result {
+            case .success(_):
+                completion(nil)
+            case .failure(let error):
+                completion(error)
+            }
         }
     }
     
-    private func fetchUser(completion: @escaping(UserResponse?, Error?) -> ()) {
-        taskForGETRequest(url: EndPoints.user(UserData.id).url, responseType: UserResponse.self, shouldEscape: true) { (response, error) in
-            guard error == nil, let response = response else {
-                completion(nil, error!)
-                return
-            }
-            completion(response, nil)
-        }
-    }
-    
-    final func logOutService(success: @escaping (LogOutResponse) -> (), failure: @escaping (Error) -> ()) {
+    func logOut(success: @escaping (LogOutResponse) -> (), failure: @escaping (Error) -> ()) {
         var urlRequest = URLRequest(url: EndPoints.auth.url)
         urlRequest.httpMethod = "DELETE"
         deleteCookies(&urlRequest)
@@ -195,5 +162,94 @@ extension BaseService {
         UserData.uniqueKey = ""
         UserData.firstName = ""
         UserData.lastName = ""
+    }
+}
+
+// MARK: - Get Request -
+
+extension BaseService {
+    
+    func setupGetRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, shouldEscape: Bool, completion: @escaping (Result<ResponseType, Error>) -> Void) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion(.failure(error!))
+                }
+                return
+            }
+            do {
+                var response: ResponseType!
+                if shouldEscape {
+                    response = try JSONDecoder().decode(ResponseType.self, from: data.subdata(in: 5..<data.count))
+                } else {
+                    response = try JSONDecoder().decode(ResponseType.self, from: data)
+                }
+                DispatchQueue.main.async {
+                    completion(.success(response))
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
+        }.resume()
+    }
+}
+
+// MARK: - Post Request -
+
+extension BaseService {
+    
+    func setupPostRequest<RequestType: Encodable, ResponseType: Decodable>(_ url: URL, bodyData: RequestType, shouldEscape: Bool, completion: @escaping (Result<ResponseType, Error>) -> Void) {
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            urlRequest.httpBody = try JSONEncoder().encode(bodyData)
+        } catch {
+            fatalError("HTTP body is not set correctly. Failed with error -> \(error.localizedDescription)")
+        }
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            guard error == nil, let data = data else {
+                DispatchQueue.main.async {
+                    completion(.failure(error!))
+                }
+                return
+            }
+            do {
+                var responseObject: ResponseType!
+                if shouldEscape {
+                    responseObject = try JSONDecoder().decode(ResponseType.self, from: data.subdata(in: 5..<data.count))
+                } else {
+                    responseObject = try JSONDecoder().decode(ResponseType.self, from: data)
+                }
+                DispatchQueue.main.async {
+                    completion(.success(responseObject))
+                }
+            } catch {
+                do {
+                    let errorResponse = try JSONDecoder().decode(AuthErrorResponse.self, from: data) as Error
+                    DispatchQueue.main.async {
+                        completion(.failure(errorResponse))
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }.resume()
+    }
+}
+
+// MARK: - Cancel Task by URL -
+
+extension BaseService {
+    
+    func cancelTaskBy(_ url: URL) {
+        URLSession.shared.getAllTasks { tasks in
+            tasks.filter { $0.state == .running }.filter { $0.originalRequest?.url == url }.first?.cancel()
+        }
     }
 }
